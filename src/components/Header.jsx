@@ -1,27 +1,21 @@
-import React from "react";
-import Form from "./Form";
+import React, { useContext } from "react";
 import GlobalStyle from "../GlobalStyles";
 import styled from "styled-components";
 import { HeadPart } from "../style/HeaderStyle";
 import { TitleName } from "../style/HeaderStyle";
 import { Banner } from "../style/HeaderStyle";
-import { useState } from "react";
+import { FanLetterContext } from "../shared/FanLetterContext";
 
 export const artistes = ["IU", "SIA", "Eminem", "Selena Gomez"];
 
-function Header({
-  fanLetter,
-  setFanLetter,
-  content,
-  setContent,
-  contentHandler,
-}) {
+function Header() {
+  const { setSelectArtistName, selectArtistName } =
+    useContext(FanLetterContext);
+
   function selectShift(selectedname) {
     const artistSelected = artistes.filter((artist) => artist === selectedname);
     setSelectArtistName(...artistSelected);
   }
-
-  const [selectArtistName, setSelectArtistName] = useState("IU");
 
   const MemberName = styled.button`
     background-color: ${(props) =>
@@ -75,15 +69,6 @@ function Header({
           </MemberName>
         </Banner>
       </HeadPart>
-
-      <Form
-        fanLetter={fanLetter}
-        setFanLetter={setFanLetter}
-        content={content}
-        setContent={setContent}
-        contentHandler={contentHandler}
-        selectArtistName={selectArtistName}
-      />
     </>
   );
 }

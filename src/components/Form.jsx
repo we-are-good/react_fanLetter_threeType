@@ -1,26 +1,26 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { artistes } from "./Header";
 import { v4 as uuidv4 } from "uuid";
 import GlobalStyle from "../GlobalStyles";
-import Addition from "./Addition";
 import { ArticleBox } from "../style/FormStyle";
 import { CardIndex } from "../style/FormStyle";
 import { InputIndex } from "../style/FormStyle";
 import { EnrollmentButton } from "../style/FormStyle";
+import { FanLetterContext } from "../shared/FanLetterContext";
 
-function Form({
-  fanLetter,
-  setFanLetter,
-  selectArtistName,
-  content,
-  setContent,
-  contentHandler,
-}) {
-  const [nickname, setNickname] = useState("");
-  const [toWho, setToWho] = useState("IU");
-
-  const nicknameHandler = (event) => setNickname(event.target.value);
-  const toWhoHandler = (event) => setToWho(event.target.value);
+function Form() {
+  const {
+    fanLetter,
+    setFanLetter,
+    content,
+    setContent,
+    nickname,
+    setNickname,
+    toWho,
+    contentHandler,
+    nicknameHandler,
+    toWhoHandler,
+  } = useContext(FanLetterContext);
 
   const fanLetterAddition = () => {
     const today = new Date();
@@ -81,7 +81,6 @@ function Form({
           팬레터 등록
         </EnrollmentButton>
       </ArticleBox>
-      <Addition fanLetter={fanLetter} selectArtistName={selectArtistName} />
     </>
   );
 }

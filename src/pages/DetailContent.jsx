@@ -1,4 +1,6 @@
 import React from "react";
+import { useContext } from "react";
+import { FanLetterContext } from "../shared/FanLetterContext";
 import GlobalStyle from "../GlobalStyles";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -15,7 +17,8 @@ import {
   BlackSmallButton,
 } from "../style/DetailContentStyle";
 
-function DetailContent({ fanLetter, setFanLetter }) {
+function DetailContent() {
+  const { fanLetter, setFanLetter } = useContext(FanLetterContext);
   const params = useParams();
   const navigation = useNavigate();
 

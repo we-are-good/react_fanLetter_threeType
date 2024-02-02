@@ -16,15 +16,13 @@ import { InputIndex } from "../style/FormStyle";
 import GlobalStyle from "../GlobalStyles";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { FanLetterContext } from "../shared/FanLetterContext";
 
-function EditionCard({
-  fanLetter,
-  setFanLetter,
-  setContent,
-  content,
-  contentHandler,
-}) {
+function EditionCard() {
   //edition 함수, 찾은 항목의 content를 수정할 수 있게 한다.
+  const { fanLetter, setFanLetter, content, setContent, contentHandler } =
+    useContext(FanLetterContext);
   const params = useParams();
   const navigation = useNavigate();
   const clickedCard = fanLetter.filter((letter) => letter.id === params.id);

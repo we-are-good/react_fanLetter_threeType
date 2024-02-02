@@ -1,22 +1,14 @@
 import React from "react";
 import Header from "../components/Header";
+import Form from "../components/Form";
+import Addition from "../components/Addition";
 
-function Home({
-  fanLetter,
-  setFanLetter,
-  content,
-  contentHandler,
-  setContent,
-}) {
+function Home() {
   return (
     <>
-      <Header
-        fanLetter={fanLetter}
-        setFanLetter={setFanLetter}
-        content={content}
-        setContent={setContent}
-        contentHandler={contentHandler}
-      />
+      <Header />
+      <Form />
+      <Addition />
     </>
   );
 }

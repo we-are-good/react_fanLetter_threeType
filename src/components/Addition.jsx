@@ -1,12 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+import { useContext } from "react";
 import GlobalStyle from "../GlobalStyles";
 import { useNavigate } from "react-router-dom";
 import { LetterCard } from "../style/AdditionStyle";
 import { ProFile } from "../style/AdditionStyle";
 import { ContentBoxInCard } from "../style/AdditionStyle";
+import { FanLetterContext } from "../shared/FanLetterContext";
 
-function Addition({ fanLetter, selectArtistName }) {
+function Addition() {
+  const { fanLetter, selectArtistName } = useContext(FanLetterContext);
   const addList = fanLetter.filter(
     (letter) => letter.toWho === selectArtistName
   );
