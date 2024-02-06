@@ -1,25 +1,22 @@
-import React, { useContext } from "react";
 import GlobalStyle from "../GlobalStyles";
 import styled from "styled-components";
 import { HeadPart } from "../style/HeaderStyle";
 import { TitleName } from "../style/HeaderStyle";
 import { Banner } from "../style/HeaderStyle";
-import { FanLetterContext } from "../shared/FanLetterContext";
-
-export const artistes = ["IU", "SIA", "Eminem", "Selena Gomez"];
+import { artistes } from "../redux/config/configStore";
+import { useDispatch, useSelector } from "react-redux";
 
 function Header() {
-  const { setSelectArtistName, selectArtistName } =
-    useContext(FanLetterContext);
+  const dispatch = useDispatch();
 
-  function selectShift(selectedname) {
-    const artistSelected = artistes.filter((artist) => artist === selectedname);
-    setSelectArtistName(...artistSelected);
-  }
+  const selectedArtistName = useSelector((state) => {
+    console.log(state.HeaderArtistSelection.selectedArtistName);
+    return state.HeaderArtistSelection.selectedArtistName;
+  });
 
   const MemberName = styled.button`
     background-color: ${(props) =>
-      props.name === selectArtistName ? "blue" : "darkgreen"};
+      props.name === selectedArtistName ? "blue" : "darkgreen"};
     color: white;
     border-radius: 0.5rem;
     font-size: 2rem;
@@ -35,16 +32,18 @@ function Header() {
           <MemberName
             name={artistes[0]}
             onClick={() => {
-              selectShift(artistes[0]);
+              dispatch({ type: "IU" });
             }}
           >
             {artistes[0]}
           </MemberName>
 
           <MemberName
-            name={artistes[1]}
+            name="SIA"
             onClick={() => {
-              selectShift(artistes[1]);
+              dispatch({
+                type: "SIA",
+              });
             }}
           >
             {artistes[1]}
@@ -53,7 +52,9 @@ function Header() {
           <MemberName
             name={artistes[2]}
             onClick={() => {
-              selectShift(artistes[2]);
+              dispatch({
+                type: artistes[2],
+              });
             }}
           >
             {artistes[2]}
@@ -62,7 +63,9 @@ function Header() {
           <MemberName
             name={artistes[3]}
             onClick={() => {
-              selectShift(artistes[3]);
+              dispatch({
+                type: artistes[3],
+              });
             }}
           >
             {artistes[3]}

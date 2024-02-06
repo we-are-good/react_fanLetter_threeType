@@ -1,46 +1,48 @@
-import React, { useContext } from "react";
-import { artistes } from "./Header";
+import { artistes } from "../redux/config/configStore";
 import { v4 as uuidv4 } from "uuid";
 import GlobalStyle from "../GlobalStyles";
-import { ArticleBox } from "../style/FormStyle";
-import { CardIndex } from "../style/FormStyle";
-import { InputIndex } from "../style/FormStyle";
-import { EnrollmentButton } from "../style/FormStyle";
-import { FanLetterContext } from "../shared/FanLetterContext";
+import {
+  ArticleBox,
+  CardIndex,
+  InputIndex,
+  EnrollmentButton,
+} from "../style/FormStyle";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 function Form() {
-  const {
-    fanLetter,
-    setFanLetter,
-    content,
-    setContent,
-    nickname,
-    setNickname,
-    toWho,
-    contentHandler,
-    nicknameHandler,
-    toWhoHandler,
-  } = useContext(FanLetterContext);
+  const dispatch = useDispatch();
 
-  const fanLetterAddition = () => {
+  const [content, setContent] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [toWho, setToWho] = useState("IU");
+
+  const contentHandler = (event) => setContent(event.target.value);
+  const nicknameHandler = (event) => setNickname(event.target.value);
+  const toWhoHandler = (event) => setToWho(event.target.value);
+
+  const FanLetterForm = () => {
     const today = new Date();
     const formatttedData = `${today.getFullYear()}. ${today.getMonth()}. ${today.getDay()}. ${today.getHours()} : ${today.getMinutes()}`;
-
-    const newFanLetter = {
-      id: uuidv4(),
-      nickname,
-      content,
-      toWho,
-      when: formatttedData,
-    };
+    const id = uuidv4();
     if (!nickname || !content) {
       return alert("내용을 입력하세요.");
     }
-    setFanLetter((fanLetter) => [newFanLetter, ...fanLetter]);
+
+    dispatch({
+      type: "NewFanLetter",
+      payload: {
+        id,
+        nickname,
+        content,
+        toWho,
+        when: formatttedData,
+      },
+    });
+
     setNickname("");
     setContent("");
   };
-  console.log(fanLetter);
 
   return (
     <>
@@ -77,9 +79,7 @@ function Form() {
             <option value={artistes[3]}>{artistes[3]}</option>
           </select>
         </CardIndex>
-        <EnrollmentButton onClick={fanLetterAddition}>
-          팬레터 등록
-        </EnrollmentButton>
+        <EnrollmentButton onClick={FanLetterForm}>팬레터 등록</EnrollmentButton>
       </ArticleBox>
     </>
   );

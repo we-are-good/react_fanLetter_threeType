@@ -1,28 +1,27 @@
 import React from "react";
-import { useContext } from "react";
 import GlobalStyle from "../GlobalStyles";
 import { useNavigate } from "react-router-dom";
-import { LetterCard } from "../style/AdditionStyle";
-import { ProFile } from "../style/AdditionStyle";
-import { ContentBoxInCard } from "../style/AdditionStyle";
-import { FanLetterContext } from "../shared/FanLetterContext";
+import { LetterCard, ProFile, ContentBoxInCard } from "../style/AdditionStyle";
+import { useSelector } from "react-redux";
 
 function Addition() {
-  const { fanLetter, selectArtistName } = useContext(FanLetterContext);
-  const addList = fanLetter.filter(
-    (letter) => letter.toWho === selectArtistName
-  );
+  const selectedName = useSelector((state) => {
+    return state.HeaderArtistSelection.selectedArtistName;
+  });
+  const totalFanLetter = useSelector((state) => state.FanLetterForm);
 
+  const selectedArtistFanLetter = totalFanLetter.filter(
+    (letter) => letter.toWho === selectedName
+  );
   const navigate = useNavigate();
 
   return (
     <div>
       <GlobalStyle />
-      {addList.map((letter) => {
+      {selectedArtistFanLetter.map((letter) => {
         return (
           <div key={letter.id}>
             <LetterCard onClick={() => navigate(`/detailcontent/${letter.id}`)}>
-              {console.log(fanLetter)}
               <ProFile>사진</ProFile>
               <ContentBoxInCard>
                 <div>{letter.nickname}</div>

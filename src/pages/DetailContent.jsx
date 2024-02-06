@@ -1,6 +1,4 @@
 import React from "react";
-import { useContext } from "react";
-import { FanLetterContext } from "../shared/FanLetterContext";
 import GlobalStyle from "../GlobalStyles";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -16,21 +14,22 @@ import {
   DetailContentButtons,
   BlackSmallButton,
 } from "../style/DetailContentStyle";
+import { useSelector, useDispatch } from "react-redux";
 
 function DetailContent() {
-  const { fanLetter, setFanLetter } = useContext(FanLetterContext);
   const params = useParams();
   const navigation = useNavigate();
 
-  const clickedCard = fanLetter.filter((letter) => letter.id === params.id);
-  const notClickedCard = fanLetter.filter((letter) => letter.id !== params.id);
-  const [{ id, nickname, when, toWho, content }] = clickedCard;
+  const totalFanLetter = useSelector((state) => state.FanLetterForm);
+  console.log(totalFanLetter);
+  const pageId = parseInt(params.id, 10);
+
+  const clickedCard = totalFanLetter.find((letter) => letter.id === pageId);
   console.log(clickedCard);
-  console.log(id);
+  const [{ id, nickname, when, toWho, content }] = clickedCard;
 
   //deletion 함수, 찾은 항목을 제거할 수 있게 한다.
   const deletionCard = () => {
-    setFanLetter(notClickedCard);
     navigation(`/`);
   };
 

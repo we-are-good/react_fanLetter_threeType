@@ -16,37 +16,43 @@ import { InputIndex } from "../style/FormStyle";
 import GlobalStyle from "../GlobalStyles";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
-import { FanLetterContext } from "../shared/FanLetterContext";
+import { useSelector, useDispatch } from "react-redux";
 
 function EditionCard() {
   //edition 함수, 찾은 항목의 content를 수정할 수 있게 한다.
-  const { fanLetter, setFanLetter, content, setContent, contentHandler } =
-    useContext(FanLetterContext);
+
   const params = useParams();
   const navigation = useNavigate();
-  const clickedCard = fanLetter.filter((letter) => letter.id === params.id);
+  const dispatch = useDispatch();
+  const pageId = params.id;
+
+  const clickedCard = (pageId) => {
+    dispatch({
+      type: "ClickFanLetter",
+      payload: pageId,
+    });
+  };
+
   const clickedCardContent = clickedCard.content;
+  console.log(clickedCardContent);
   const [{ id, nickname, when, toWho }] = clickedCard;
-  const notClickedCard = fanLetter.filter((letter) => letter.id !== params.id);
 
   const deletionCard = () => {
-    setFanLetter(notClickedCard);
+    dispatch({
+      type: "FanLetterDeletion",
+      payload: pageId,
+    });
     navigation(`/`);
   };
 
-  const contentEdition = () => {
-    const editedFanLetter = {
-      id: id,
-      nickname: nickname,
-      content,
-      toWho: toWho,
-      when: when,
-    };
-    console.log(id);
-    setFanLetter(notClickedCard);
-    setFanLetter((prev) => [editedFanLetter, ...prev]);
-    setContent("");
+  const contentEdition = (id, content) => {
+    dispatch({
+      type: "ContentEdition",
+      payload: {
+        id,
+        content,
+      },
+    });
     navigation(`/`);
   };
 
@@ -70,8 +76,6 @@ function EditionCard() {
             defaultValue={clickedCardContent}
             placeholder="최대 100자까지만 작성할 수 있습니다."
             maxLength={100}
-            value={content}
-            onChange={contentHandler}
           />
         </DetailContentText>
         <DetailContentButtons>
